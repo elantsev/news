@@ -3,6 +3,7 @@ const SET_USER = 'SET_USER';
 
 
 let initialState = {
+    isAuth: undefined,
     user: undefined
 };
 

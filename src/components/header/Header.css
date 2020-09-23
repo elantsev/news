@@ -1,0 +1,29 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
+    background: rgb(0, 76, 148);
+}
+.header__link-list {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.header__link-item {
+}
+.header__link {
+    padding: 5px 16px;
+    transition: 0.2s;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.header__link:hover,
+.active {
+    background: rgb(38, 95, 148);
+}
