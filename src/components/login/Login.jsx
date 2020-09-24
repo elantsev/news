@@ -1,35 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
 import Preloader from "../preloader/Preloader";
 import './Login.css';
+import { useDispatch, useSelector } from "react-redux";
+import { sendCredentials } from "../../store/user";
 
 const Login = () => {
-  const [responseError, setResponseError] = useState("");
-
+  const dispatch = useDispatch()
   const history = useHistory();
-  if (localStorage.getItem('jwt-token')) {
-    history.push({ hash: '' });
+  const isAuth = useSelector(state => state.user.isAuth)
+  const responseError = useSelector(state => state.user.responseError)
+  const isSubmitting = useSelector(state => state.user.isSubmitting)
+
+  useEffect(() => {
+    if (isAuth) {
+      history.push({ hash: '' });
+    }
+  }, [isAuth]);
+  const hideLogin = (e) => {
+    if (e.target.className === 'login-wrapper') {
+      e.preventDefault();
+      history.push({ hash: '' });
+    }
   }
 
   return (
-    <div className="login-wrapper">
+    <div className="login-wrapper" onClick={hideLogin} >
       <Formik
-        initialValues={{ login: "", password: "" }}
-        onSubmit={(values, { setSubmitting }) => {
-          setResponseError("");
-          setTimeout(() => {
-            setSubmitting(false);
-            const { login, password } = values;
-            if (login === "admin" && password === "unit-1234") {
-              localStorage.setItem('gp-auth', 'true');
-              localStorage.setItem('gp-login', values.login);
-              history.push("/");
-            } else {
-              setResponseError("Логин или пароль указан не верно");
-            }
-          }, 1500);
+        initialValues={{ login: "admin", password: "admin-1234" }}
+        onSubmit={(values) => {
+          dispatch(sendCredentials(values));
         }}
         validationSchema={Yup.object().shape({
           login: Yup.string()
@@ -48,7 +50,6 @@ const Login = () => {
             values,
             touched,
             errors,
-            isSubmitting,
             handleChange,
             handleBlur,
             handleSubmit
