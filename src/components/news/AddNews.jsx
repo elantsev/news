@@ -31,7 +31,8 @@ function AddNews () {
                 <button className="add-news__submit" type="submit">Опубликовать</button>
                 <p className="error">{error}</p>
             </form>
-            <p className="add-news__hint">После одобрения Админом новость будет опубликована</p>
+            { user.status !== 'admin' &&
+                <p className="add-news__hint">После одобрения Админом новость будет опубликована</p>}
         </div>
     );
 };

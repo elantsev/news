@@ -60,6 +60,7 @@ form.login {
   height: 3rem;
   width: 15rem;
   margin-bottom: 2rem;
+  position: relative;
 }
 .login button img {
   height: 4rem;

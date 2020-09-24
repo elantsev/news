@@ -29,7 +29,7 @@ const Login = () => {
   return (
     <div className="login-wrapper" onClick={hideLogin} >
       <Formik
-        initialValues={{ login: "admin", password: "admin-1234" }}
+        initialValues={{ login: "", password: "" }}
         onSubmit={(values) => {
           dispatch(sendCredentials(values));
         }}
@@ -84,7 +84,7 @@ const Login = () => {
                   <div className="input-feedback">{errors.password}</div>
                 )}
               </div>
-              <button type="submit" disabled={isSubmitting}>
+              <button className='login__submit' type="submit" disabled={isSubmitting}>
                 {isSubmitting ? <Preloader /> : "Войти"}
               </button>
               {responseError && (
