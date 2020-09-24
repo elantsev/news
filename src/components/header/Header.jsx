@@ -1,17 +1,25 @@
 import React from 'react';
 import { NavLink, useLocation, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import './Header.css';
 import Login from '../login/Login';
+import { setIsAuth, setUser } from '../../store/user';
 
 function Header () {
   const isAuth = useSelector(state => state.user.isAuth)
   const history = useHistory();
+  const dispatch = useDispatch()
   const { hash } = useLocation()
 
   const showLogin = () => {
     history.push({ hash: '#login' });
   }
+  const logOut = () => {
+    delete localStorage.user
+    dispatch(setUser({}))
+    dispatch(setIsAuth(false))
+  }
+
 
   return (
     <nav className="header">
@@ -28,7 +36,7 @@ function Header () {
           </li>}
       </ul>
       {!isAuth && <button onClick={showLogin} className="header__btn">Вход</button>}
-      {isAuth && <button className="header__btn">Выход</button>}
+      {isAuth && <button onClick={logOut} className="header__btn">Выход</button>}
       {hash === '#login' && <Login />}
     </nav>
   );
