@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/header/Header';
 import Home from './components/home/Home';
 import News from './components/news/News';
+import PrivateRoute from './components/privateRoute/PrivateRoute';
 import Settings from './components/settings/Settings';
 
 function App () {
@@ -11,14 +12,9 @@ function App () {
     <div className="App">
       <Header />
       <Switch>
-        <Route path="/news" component={News}/>
-      
-        <Route path="/settings">
-          <Settings />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
+        <Route path="/news" component={News} />
+        <PrivateRoute path="/settings" component={Settings} />
+        <Route path="/" component={Home} />
       </Switch>
     </div>
   );

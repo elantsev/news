@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { formatDate } from '../../utils';
+import AddNews from './AddNews';
 import './News.css';
 
 function News () {
   const user = useSelector(state => state.user.user)
-  const news = useSelector(state => state.news.news)
+  let news = useSelector(state => state.news.news)
+
+  const [search, setSearch] = useState('')
+
+  const allowedNews = getAllowedNews(news, user)
+  const filteredNews = getFilteredNews(allowedNews, search)
+
   return (
     <div>
-      <div className="add-news">
-        <h4>Для публикации новости заполните форму:</h4>
-        <form className="add-news__form">
-          <input className="add-news__item-header" placeholder="Введите заголовок новости" type="text" />
-          <textarea placeholder="Введите текст новости" className="add-news__item-text"></textarea>
-          <button className="add-news__submit" type="submit">Опубликовать</button>
-        </form>
-        <p className="add-news__hint">После одобрения Админом новость будет опубликована</p>
-      </div>
-      {news.map(({ id, title, text, createdAt }) =>
+      <AddNews />
+      <hr />
+      Поиск: <input value={search} onChange={e => setSearch(e.target.value)} placeholder='введите текст' type="text" className="search" />
+      <hr />
+      <h2>Новости</h2>
+      {filteredNews.map(({ id, title, text, createdAt }) =>
         <div key={id}>
           <h3>{title}</h3>
           <p>{text}</p>
@@ -33,3 +36,23 @@ function News () {
 }
 
 export default News;
+
+
+function getAllowedNews (news, user) {
+  const isAuth = user.login
+  if (!isAuth) {
+    return news.filter(n => n.approved)
+  }
+  if (user.status === 'user') {
+    return news.filter(n => (n.approved || n.authorId === user.id))
+  }
+  if (user.status === 'admin') {
+    return news
+  }
+  return []
+}
+
+function getFilteredNews (news, string) {
+  const regExp = new RegExp(string)
+  return news.filter(n => regExp.test(n.title + n.text))
+}

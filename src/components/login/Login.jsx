@@ -37,7 +37,7 @@ const Login = () => {
           login: Yup.string()
             .trim()
             .required("Укажите логин.")
-            .min(5, "Минимальная длина логина - 5 символов."),
+            .min(4, "Минимальная длина логина - 4 символа."),
           password: Yup.string()
             .trim()
             .required("Укажите пароль.")
