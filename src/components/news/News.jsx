@@ -1,35 +1,47 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { approveNewsItem, removeNewsItem } from '../../store/news';
 import { formatDate } from '../../utils';
 import AddNews from './AddNews';
 import './News.css';
 
 function News () {
   const user = useSelector(state => state.user.user)
+  const isAuth = useSelector(state => state.user.isAuth)
   let news = useSelector(state => state.news.news)
-
+  const dispatch = useDispatch()
   const [search, setSearch] = useState('')
+
+  const onRemove = (id) => {
+    dispatch(removeNewsItem(id))
+  }
+  const onApprove = (id) => {
+    dispatch(approveNewsItem(id))
+  }
+
+
+
 
   const allowedNews = getAllowedNews(news, user)
   const filteredNews = getFilteredNews(allowedNews, search)
 
   return (
     <div>
-      <AddNews />
+      {isAuth && <AddNews />}
       <hr />
       Поиск: <input value={search} onChange={e => setSearch(e.target.value)} placeholder='введите текст' type="text" className="search" />
       <hr />
       <h2>Новости</h2>
-      {filteredNews.length ? filteredNews.map(({ id, authorId, title, text, createdAt }) =>
+      {filteredNews.length ? filteredNews.map(({ id, authorId, title, text, createdAt, approved }) =>
         <div key={id} className='news-item'>
           <h3>{title}</h3>
           <p>{text}</p>
           <p>Новость создана: {formatDate(createdAt)}</p>
           {(user.status === 'admin' ||
             (user.status === 'user' && user.id === authorId)) &&
-            <button>Удалить</button>}
-          {user.status === 'admin' &&
-            <button>Одобрить</button>}
+            <button onClick={() => onRemove(id)}>Удалить</button>}
+          {(user.status === 'admin' && !approved) &&
+            <button onClick={() => onApprove(id)}>Одобрить</button>}
         </div>
       ) :
         <p>увы, новостей нет</p>
