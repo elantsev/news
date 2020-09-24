@@ -4,9 +4,12 @@ const SET_RESPONSE_ERROR = 'SET_RESPONSE_ERROR';
 const SET_SUBMITTING = 'SET_SUBMITTING';
 const SET_IS_AUTH = 'SET_IS_AUTH';
 
+
+// вместо jwt token ;)
+const authUser = localStorage.user ? JSON.parse(localStorage.user) : undefined
 let initialState = {
-    isAuth: undefined,
-    user: undefined,
+    isAuth: !!authUser,
+    user: authUser || {},
     responseError: undefined,
     isSubmitting: false
 };
@@ -51,14 +54,13 @@ export const sendCredentials = (values) => {
         setTimeout(() => {
             const { login, password } = values;
             if (login === "admin" && password === "admin-1234") {
-                dispatch(setUser({ login, password, status: 'admin' }));
+                dispatch(setUser({ login, status: 'admin' }));
                 dispatch(setIsAuth(true));
-                localStorage.setItem('user', { login, password, status: 'admin' });
-                dispatch(setSubmitting(false));
+                localStorage.setItem('user', JSON.stringify({ login, status: 'admin' }));
             } else {
                 dispatch(setResponseError("Логин или пароль указан не верно"));
-                dispatch(setSubmitting(false));
             }
+            dispatch(setSubmitting(false));
         }, 1500)
     };
 }

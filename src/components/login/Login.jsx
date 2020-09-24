@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useHistory } from "react-router-dom";
@@ -18,7 +18,7 @@ const Login = () => {
     if (isAuth) {
       history.push({ hash: '' });
     }
-  }, [isAuth]);
+  }, [isAuth, history]);
   const hideLogin = (e) => {
     if (e.target.className === 'login-wrapper') {
       e.preventDefault();

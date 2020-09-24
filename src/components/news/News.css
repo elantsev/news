@@ -1,0 +1,11 @@
+.add-news {
+    padding: 10px;
+}
+.add-news__form {
+    display: flex;
+    flex-direction: column;
+}
+.add-news__item-text {
+    margin: 10px 0;
+    min-height: 60px;
+}
