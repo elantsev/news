@@ -20,17 +20,20 @@ function News () {
       Поиск: <input value={search} onChange={e => setSearch(e.target.value)} placeholder='введите текст' type="text" className="search" />
       <hr />
       <h2>Новости</h2>
-      {filteredNews.map(({ id, title, text, createdAt }) =>
-        <div key={id}>
+      {filteredNews.length ? filteredNews.map(({ id, authorId, title, text, createdAt }) =>
+        <div key={id} className='news-item'>
           <h3>{title}</h3>
           <p>{text}</p>
           <p>Новость создана: {formatDate(createdAt)}</p>
-          {(user.status === 'admin' || user.status === 'user') &&
+          {(user.status === 'admin' ||
+            (user.status === 'user' && user.id === authorId)) &&
             <button>Удалить</button>}
           {user.status === 'admin' &&
             <button>Одобрить</button>}
         </div>
-      )}
+      ) :
+        <p>увы, новостей нет</p>
+      }
     </div>
   );
 }

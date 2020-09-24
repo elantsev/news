@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setNewsItem } from '../../store/news';
 
 
 function AddNews () {
+    const user = useSelector(state => state.user.user)
     const [title, setTitle] = useState('')
     const [text, setText] = useState('')
     const [error, setError] = useState('')
@@ -12,7 +13,7 @@ function AddNews () {
     const onSubmit = e => {
         e.preventDefault()
         if (title.trim() && text.trim) {
-            dispatch(setNewsItem({ title, text }))
+            dispatch(setNewsItem({ title, text, authorId: user.id }))
             setTitle('')
             setText('')
             setError('')
