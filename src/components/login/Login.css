@@ -1,0 +1,78 @@
+.login-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+}
+
+form.login {
+  margin: auto;
+  max-width: 50rem;
+  width: 50rem;
+  padding: 1rem;
+}
+
+.login label,
+.login input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login .inputWrapper {
+  position: relative;
+  margin-bottom: 4rem;
+}
+.login input {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 0.3rem;
+  border: 0.1rem solid #777;
+}
+
+.login input.error {
+  border-color: red;
+}
+
+.login .input-feedback {
+  position: absolute;
+  color: rgb(235, 54, 54);
+  top: 4rem;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+}
+
+.login button {
+  background-color: rgb(0, 76, 148);
+  color: white;
+  border: 0.1rem solid rgb(0, 76, 148);
+  border-radius: 0.3rem;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  width: 15rem;
+}
+.login button img {
+  height: 4rem;
+  position: relative;
+  top: -0.6rem;
+}
+
+.login button:hover {
+  cursor: pointer;
+  background-color: rgb(38, 95, 148);
+}
+.login button:disabled {
+  background-color: #b1b1b1;
+  border: 1px solid #b1b1b1;
+}
+.login .responseError {
+  position: absolute;
+  color: rgb(235, 54, 54);
+  bottom: -1.2rem;
+  font-size: 1.4rem;
+}

@@ -1,8 +1,19 @@
 import React from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 import './Header.css';
+import Login from '../login/Login';
 
 function Header () {
+  const isAuth = useSelector(state => state.user.isAuth)
+  const history = useHistory();
+  const showLogin = () => {
+    history.push({ hash: '#login' });
+  }
+
+  const { hash } = useLocation()
+  console.log("Header -> location", hash)
+
   return (
     <nav className="header">
       <ul className="header__link-list">
@@ -16,8 +27,9 @@ function Header () {
           <NavLink className="header__link" exact to="/settings">Настройки</NavLink>
         </li>
       </ul>
-      <button className="header__btn">Вход</button>
-      <button className="header__btn">Выход</button>
+      {!isAuth && <button onClick={showLogin} className="header__btn">Вход</button>}
+      {isAuth && <button className="header__btn">Выход</button>}
+      {hash === '#login' && <Login />}
     </nav>
   );
 }
